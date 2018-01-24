@@ -28,7 +28,9 @@ Anycast uses one-to-one-of-many communication. It is similar to Multicast, howev
 Anycast is used in Domain Naming System(DNS), IPv4 to IPv6 Transition and Content Delivery Networks(CDN).
 
 
-## Comparison of 
+## Conclusion
+
+![comparison](images/comparison.png) 
 
 
 ## References
