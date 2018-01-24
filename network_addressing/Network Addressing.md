@@ -7,7 +7,7 @@ The purpose of a network is to provide a means to communicate information.  One 
 ![unicast](images/unicast.png)
 Unicast refers to one-to-one communication, that is the information flows from one point(sender) to exactly one point(receiver) in the network. Each point has a unique address in the network. A simple analogy is when you send an sms to a friend.
 
-Unicast is the predominant form of transmission in most networks. Popular application protocols such as http, ftp and smtp use unicast transmission. 
+Unicast is the predominant form of transmission in most networks. Popular application protocols such as HTTP, FTP and SMTP use unicast transmission. 
 
 ## Broadcast
 ![broadcast](images/broadcast.png)
