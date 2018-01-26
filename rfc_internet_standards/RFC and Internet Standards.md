@@ -8,7 +8,7 @@ The Internet Engineering Task Force (IETF)[1](https://en.wikipedia.org/wiki/Inte
 
 A Request For Comments(RFC)[2](https://en.wikipedia.org/wiki/Request_for_Comments) is a publication authored by engineers. A RFC describes methods, behaviors, research, or innovations applicable to the working of the Internet. Steve Crocker, part of the team that developed the protocols for the ARPANET, created RFC  in 1969 to help record unofficial notes. There are three RFC subseries- Best Current Practice (BCP), For Your Information (FYI) and Standard (STD).
 
-Each RFC is given a unique serial number. Once assigned and published, an RFC cannot be rescinded or modified. If the requires modifications, the authors must publish a revised document. Older RFCs then become obsolete. Not all RFCs are standards. RFCs intended to become Internet Standards evolve
+Each RFC is given a unique serial number. Once assigned and published, an RFC cannot be rescinded or modified. If it requires modifications, the authors must publish a revised document. Older RFCs then become obsolete. Not all RFCs are standards. RFCs intended to become Internet Standards evolve
 through a set of maturity levels known as the "standards track".[3](https://tools.ietf.org/html/rfc2026)
 
 ## The Internet Standards Track
