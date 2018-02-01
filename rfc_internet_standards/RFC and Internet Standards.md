@@ -4,7 +4,7 @@
 
 The Internet Engineering Task Force (IETF)[1](https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force) is a non-profit organization. It oversees the development and promotion of Internet Standards such as  the Internet protocol suite (TCP/IP). TCP/IP itself is a set of communication protocols. But how are these protocols standardised? This article discusses Request For Comments(RFCs) and how they can become Internet Standards[2](https://en.wikipedia.org/wiki/Internet_Standard). 
 
-![ietf logo](images/IETF_Logo.svg)
+![ietf logo](images/IETF_Logo.png)
 
 
 ## Request For Comments
@@ -18,10 +18,10 @@ through a set of maturity levels known as the "standards track".[4](https://tool
 
 Section four of RFC 2026 defines the evolution process of an RFC to an Internet Standard. The process involves different stages of development, testing,and acceptance known as "maturity levels". RFC 2026 defined three maturity levels: "Proposed Standard", "Draft Standard", and "Standard". However, RFC 2026 was superseded by RFC 6410 which reduced the Standards Track to two maturity levels: Proposed Standard and Internet Standard [5](https://tools.ietf.org/html/rfc6410). Both RFC 2026 and RFC 6410 characterise Internet Standards as:
 
-```
-An Internet Standard is characterized by a high degree of technical maturity and by a generally held belief that the specified protocol or service provides significant benefit to the Internet community.
-```
-An Internet Standard ensures that hardware and software produced by different vendors can work together.
+
+> An Internet Standard is characterized by a high degree of technical maturity and by a generally held belief that the specified protocol or service provides significant benefit to the Internet community.
+
+> An Internet Standard ensures that hardware and software produced by different vendors can work together.
 
 All Internet Standards are given a number in the STD series. Unlike RFCs, an Internet Standard retains its STD number even if it is updated. 
 
