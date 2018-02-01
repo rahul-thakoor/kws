@@ -31,7 +31,7 @@ The Internet Protocol(IP) is the principal means of communication in the TCP/IP 
 
 ![RFC 760](images/rfc760.png)
 ## Conclusion
-In this article we saw how internet protocols become standardised. The IETF oversees this process and documents everything in publications known as Request For Comments.
+In this article we saw how internet protocols become standardised. The IETF oversees this process and documents everything in publications known as Request For Comments. An RFC can eventually become an Internet Standard through the Internet Standards Track and is characterised by a high degree of technical maturity.
 
 ## References
 1. https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force
