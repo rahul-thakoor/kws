@@ -25,3 +25,37 @@ SSH Tunneling sets up a secure channel between the client and a server using SSH
 - Dynamic Port Forwarding
 
 ### Local Port Forwarding
+Local Port Forwarding is tne most common type of tunneling used. It allows you to connect to another server from your local machine. This is commonly used to bypass certain firewall rules. 
+
+For example, let's assume that `supinfo.com` is blocked on our local network. We could create a tunnel through another server on another network then access it locally.
+
+In a terminal:
+
+
+```shell
+ssh -L 8080:www.supinfo.com:80 user@vps
+```
+Pointing browser at `http://localhost:8080/` would load the `supinfo.com` website through a tunnel to the remote vps server.
+
+Another use of local port forwarding is to remotely access services that are accessible only when using `127.0.0.1` as the hostname. For example, phpMyAdmin which is an administration tool for MySQL and MariaDB. For instance, we could access phpMyAdmin remotely to manage a MySQL database hosted on amazon AWS. 
+
+```shell
+ssh -N -L 8888:127.0.0.1:80 <username>@<AWS instance public IP or DNS>
+```
+Then, phpMyAdmin would be available on local machine at `http://127.0.0.1:8888/phpmyadmin/`
+
+### Remote Port Forwarding
+Remote Port Forwarding, also called Reverse SSH, is used to provide access to a service running locally on the machine from a remote network. A simple example would be sharing access to web app running locally to a colleague with deploying the app. Typically, we would need to know our public IP address and configure NAT and firewall rules to allow someone to connect remotely to services running locally on our machine. 
+
+Remote Port Forwarding allows us to give remote access to local services via a third publicly accessible server. To enable it, the `/etc/ssh/sshd_config` file needs to be modified by adding :
+
+```shell
+GatewayPorts yes
+```
+
+For example, let's assume we want to share a webapp running locally on `port 80` to the outside world via a publicly availabe amazon AWS instance. 
+
+```shell
+ssh -R 8080:localhost:80 user@<aws instance>
+```
+ 
