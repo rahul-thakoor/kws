@@ -83,3 +83,48 @@ ssh -Y <username>@<IP>
 ``` 
 Then run command in background(by appending `&`, e.g `idle3 &`). The application opens up in a graphical window on the local system.
 
+## File Transfer [7](https://en.wikipedia.org/wiki/Secure_Shell#File_transfer_protocols)
+
+Several file transfer protocols such as Secure Copy(SCP), SSH File Transfer Protocol (SFTP), and rsync use the SSH protocol. They provide a means to securely transfer files between a local and remote host. 
+
+Using `scp `:
+To copy file from local machine to remote host, run:
+```shell
+scp <File> <user>@<remoteHost>:<destination>
+```
+
+To copy files from remote host to local machine:
+```shell
+scp <user>@<remoteHost>:<directory/SourceFile> <TargetFile>
+```
+
+Using `STFP`:
+
+To start an interactive sftp session:
+```shell
+sftp <user>@<remoteHost>
+```
+The interactive session allows commands such as `cd` and `ls`. To retrieve a file from remote host use `get` and to upload a file use `put`.
+
+```shell
+sftp> ls
+1LAW  1LIN  1ORC  1WEB  2LAW  2LIN  2ORC  2WEB  3LAW  3LIN  3ORC  3WEB  
+sftp> cd 1WEB
+sftp> ls
+project.txt  
+sftp> get project.txt
+Fetching /home/supinfo/1WEB/project.txt to project.txt
+/home/supinfo/1WEB/project.txt                100%   29     1.6KB/s   00:00 
+```
+
+## Conclusion
+SSH is a secure network protocol with can be used in different ways. In this article, we described a few uses such as Remote Login, Tunneling and File Transfer. 
+
+## References
+- [1] https://en.wikipedia.org/wiki/Secure_Shell
+- [2] https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling
+- [3] https://en.wikipedia.org/wiki/SOCKS
+- [4] https://www.torproject.org/docs/faq.html.en#TBBSocksPort
+- [5] http://www.cs.umd.edu/~nelson/classes/utilities/xforwarding.shtml
+- [6] https://en.wikipedia.org/wiki/X_Window_System
+- [7] https://en.wikipedia.org/wiki/Secure_Shell#File_transfer_protocols
