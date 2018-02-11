@@ -16,6 +16,7 @@ In a terminal:
 ```shell
 ssh <username>@<IP>
 ```
+!["remote login"](remote-login.png)
 
 ## Tunneling [2](https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling) 
 
@@ -44,6 +45,8 @@ ssh -N -L 8888:127.0.0.1:80 <username>@<AWS instance public IP or DNS>
 ```
 Then, phpMyAdmin would be available on local machine at `http://127.0.0.1:8888/phpmyadmin/`
 
+!["phpMyAdmin"](phpmyadmin_remote.png)
+
 ### Remote Port Forwarding
 Remote Port Forwarding, also called Reverse SSH, is used to provide access to a service running locally on the machine from a remote network. A simple example would be sharing access to web app running locally to a colleague with deploying the app. Typically, we would need to know our public IP address and configure NAT and firewall rules to allow someone to connect remotely to services running locally on our machine. 
 
@@ -60,6 +63,8 @@ ssh -R 8080:localhost:8889 user@<Server IP>
 ```
 
 Loading `<Server IP>:8080`  in the browser would load the web app running locally at `localhost:8889`
+
+!["remote port"](remote-port.png)
 
 ### Dynamic Port Forwarding
 
@@ -82,6 +87,8 @@ To forward X session over SSH, in a terminal on local machine, run:
 ssh -Y <username>@<IP>
 ``` 
 Then run command in background(by appending `&`, e.g `idle3 &`). The application opens up in a graphical window on the local system.
+
+!["x11 forwarding"](x11-forward.png)
 
 ## File Transfer [7](https://en.wikipedia.org/wiki/Secure_Shell#File_transfer_protocols)
 
