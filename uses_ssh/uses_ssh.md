@@ -1,7 +1,7 @@
 # Some uses of Secure Shell (SSH)
 
 ## Introduction
-Secure Shell (SSH)[1](https://en.wikipedia.org/wiki/Secure_Shell) is a network protocol originally designed by Tatu Ylönen, a researcher at Helsinki University of Technology, Finland, as a replacement for earlier protocols such as TELNET, ftp and rlogin. SSH version 2(SSH-2) is a revised version of the protocol by the Internet Engineering Task Force (IETF). SSH is primarily favoured over other protocols since it uses public-key cryptography to provide a secured connection. SSH uses the client-server model. While SSH has numerous uses,in this article we are going to illustrate some other common ones such as Remote Login,  Tunneling, Port Forwarding and File Transfer. 
+Secure Shell (SSH)[1](https://en.wikipedia.org/wiki/Secure_Shell) is a network protocol originally designed by Tatu Ylönen, a researcher at Helsinki University of Technology, Finland, as a replacement for earlier protocols such as TELNET, ftp and rlogin. SSH version 2(SSH-2) is a revised version of the protocol by the Internet Engineering Task Force (IETF). SSH is primarily favoured over other protocols since it uses public-key cryptography to provide a secured connection. SSH uses the client-server model. While SSH has numerous uses,in this article we are going to illustrate some other common ones such as Remote Login,  Tunneling and File Transfer. 
 
 ## Remote Login
 This is by far the most popular use for SSH. Essentially, it allows users to connect remotely to a machine. Commands typed in the terminal are executed on the remote server. 
@@ -16,3 +16,12 @@ In a terminal:
 ```shell
 ssh <username>@<IP>
 ```
+
+## Tunneling [2](https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling) 
+
+SSH Tunneling sets up a secure channel between the client and a server using SSH protocol. Services can be forwarded through this secured, encrypted channel. This is achieved by SSH port forwarding. SSH tunneling is usually used to transmit unencrypted traffic through the encrypted SSH tunnel. SSH tunnels can also be used to bypass firewall rules. There are three types of SSH port forwarding:
+- Local Port Forwarding
+- Remote Port Forwarding
+- Dynamic Port Forwarding
+
+### Local Port Forwarding
