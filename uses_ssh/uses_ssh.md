@@ -53,13 +53,13 @@ Remote Port Forwarding allows us to give remote access to local services via a t
 GatewayPorts yes
 ```
 
-For example, let's assume we want to share a webapp running locally on `port 8889` to the outside world via a publicly available server(illustrated using a local server at 192.168.100.5). 
+For example, let's assume we want to share a webapp running locally on `port 8889` to the outside world via a publicly available server.
 
 ```shell
-ssh -R 8080:localhost:8889 user@192.168.100.5
+ssh -R 8080:localhost:8889 user@<Server IP>
 ```
 
-Loading `192.168.100.5:8080`  in the browser would load the web app running locally at `localhost:8889`
+Loading `<Server IP>:8080`  in the browser would load the web app running locally at `localhost:8889`
 
 ### Dynamic Port Forwarding
 
@@ -67,9 +67,9 @@ Dynamic Port Forwarding turns the SSH client into a SOCKS 4/5 proxy.Socket Secur
 
 ## X11 Forwarding [5](http://www.cs.umd.edu/~nelson/classes/utilities/xforwarding.shtml)
 
-The X Window System (X11) [6](https://en.wikipedia.org/wiki/X_Window_System) also uses the client-server model. Running an X Client on the remote system and an X Server on the local machine, we can GUI based applications from the remote system. XQuartz is the popular X Server for macOS while Xming is a popular X Server for Windows platform.
+The X Window System (X11) [6](https://en.wikipedia.org/wiki/X_Window_System) also uses the client-server model. Running an X Client on the remote system and an X Server on the local machine, we can access GUI based applications from the remote system. XQuartz is the popular X Server for macOS while Xming is a popular X Server for Windows platform.
 
-To enable X11 Forwarding, the `/etc/ssh/sshd_config` file on the __remote needs__ machine needs to be modified by adding :
+To enable X11 Forwarding, the `/etc/ssh/sshd_config` file on the __remote__ machine needs to be modified by adding :
 
 ```shell
 X11Forwarding yes
