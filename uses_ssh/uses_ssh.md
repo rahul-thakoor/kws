@@ -65,3 +65,21 @@ Loading `192.168.100.5:8080`  in the browser would load the web app running loca
 
 Dynamic Port Forwarding turns the SSH client into a SOCKS 4/5 proxy.Socket Secure (SOCKS)[3](https://en.wikipedia.org/wiki/SOCKS) is a protocol that allows information exchange between a client and a server through a proxy server. It allows traffic to bypass Internet filtering to access blocked content. The Onion Router (Tor) offers a SOCKS server interface to its clients.[4](https://www.torproject.org/docs/faq.html.en#TBBSocksPort)
 
+## X11 Forwarding [5](http://www.cs.umd.edu/~nelson/classes/utilities/xforwarding.shtml)
+
+The X Window System (X11) [6](https://en.wikipedia.org/wiki/X_Window_System) also uses the client-server model. Running an X Client on the remote system and an X Server on the local machine, we can GUI based applications from the remote system. XQuartz is the popular X Server for macOS while Xming is a popular X Server for Windows platform.
+
+To enable X11 Forwarding, the `/etc/ssh/sshd_config` file on the __remote needs__ machine needs to be modified by adding :
+
+```shell
+X11Forwarding yes
+
+X11UseForwarding yes
+```
+
+To forward X session over SSH, in a terminal on local machine, run:
+```shell
+ssh -Y <username>@<IP>
+``` 
+Then run command in background(by appending `&`, e.g `idle3 &`). The application opens up in a graphical window on the local system.
+
