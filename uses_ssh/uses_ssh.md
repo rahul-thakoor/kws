@@ -53,9 +53,15 @@ Remote Port Forwarding allows us to give remote access to local services via a t
 GatewayPorts yes
 ```
 
-For example, let's assume we want to share a webapp running locally on `port 80` to the outside world via a publicly availabe amazon AWS instance. 
+For example, let's assume we want to share a webapp running locally on `port 8889` to the outside world via a publicly available server(illustrated using a local server at 192.168.100.5). 
 
 ```shell
-ssh -R 8080:localhost:80 user@<aws instance>
+ssh -R 8080:localhost:8889 user@192.168.100.5
 ```
- 
+
+Loading `192.168.100.5:8080`  in the browser would load the web app running locally at `localhost:8889`
+
+### Dynamic Port Forwarding
+
+Dynamic Port Forwarding turns the SSH client into a SOCKS 4/5 proxy.Socket Secure (SOCKS)[3](https://en.wikipedia.org/wiki/SOCKS) is a protocol that allows information exchange between a client and a server through a proxy server. It allows traffic to bypass Internet filtering to access blocked content. The Onion Router (Tor) offers a SOCKS server interface to its clients.[4](https://www.torproject.org/docs/faq.html.en#TBBSocksPort)
+
