@@ -156,6 +156,9 @@ Alias           clear -> Clear-Host
 Alias           clhy -> Clear-History  
 ```
 
+## Conclusion
+
+Powershell is a task-based command-line tool and a scripting language. It is available for most major operating systems such as macOS, Linux and Windows. Powershell has specific commands for tasks on the system which are known as _cmdlets_. Powershell also provides aliases for common unix commands.
 ## References
 - [1] https://docs.microsoft.com/en-us/powershell/scripting/powershell-scripting?view=powershell-6
 
