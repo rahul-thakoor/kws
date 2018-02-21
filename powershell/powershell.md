@@ -1,5 +1,7 @@
 # Powershell equivalents for some common unix commands
 
+![powershell](PowerShell.png)
+
 ## Introduction
 
 Powershell [1] is a task-based command-line tool and a scripting language. Originally developed for Windows, on 18 August 2016 Microsoft open sourced Powershell with support for other platforms such as macOS and Linux. Powershell uses the "Verb-Noun" syntax for commands which are known as _cmdlets_. In this article we are going to introduce some powershell cmdlets for common unix commands.
@@ -19,16 +21,10 @@ NAME
     Get-Location
     
 SYNTAX
-    Get-Location [-PSProvider <string[]>] [-PSDrive <string[]>]  [<CommonParameters
-    >]
+    Get-Location [-PSProvider <string[]>] [-PSDrive <string[]>]  [<CommonParameters>]
     
     Get-Location [-Stack] [-StackName <string[]>]  [<CommonParameters>]
     
-
-ALIASES
-    gl
-    pwd
-
 ``` 
 
 To list all help topics on the system:
@@ -99,7 +95,7 @@ Mode                LastWriteTime         Length Name
 ------       04/21/2017     08:39              0 untitled.txt
 ```
 
-## Creating a new items
+## Creating new items
 On unix systems, `touch` and `mkdir` allow us to create a new file or new directory respectively. Powershell cmdlet `New-Item` [5] can create both files and directories. We need to use the _ItemType_ parameter, otherwise the default creates a new file.
  Creating a file:
 ```shell
@@ -126,6 +122,38 @@ New-Item -Name "newDir" -ItemType Directory
 Mode                LastWriteTime         Length Name                                                                                          
 ----                -------------         ------ ----                                                                                          
 d-----       02/21/2018     14:52                newDir
+```
+
+`New-Item` can also create symbolic or hard links. On unix systems, this requires the `ln` command.
+
+```shell
+New-Item -Name link -ItemType SymbolicLink -Value ./newFile.txt                                                        
+
+
+    Directory: /Users/supinfo/Desktop
+
+
+Mode                LastWriteTime         Length Name                                                                                          
+----                -------------         ------ ----                                                                                          
+-----l       02/21/2018     15:11             32 link  
+
+```
+
+## More commands to explore
+Powershell has numerous cmdlets and utilities. To get a quick reference to some common commands, look for commands with aliases. 
+
+```shell
+Get-Alias *                                                                                                            
+
+CommandType     Name                                   Version    Source                                               
+-----------     ----                                   -------    ------                                               
+Alias           ? -> Where-Object                                                                                      
+Alias           % -> ForEach-Object                                                                                    
+Alias           cd -> Set-Location                                                                                     
+Alias           chdir -> Set-Location                                                                                  
+Alias           clc -> Clear-Content                                                                                   
+Alias           clear -> Clear-Host                                                                                    
+Alias           clhy -> Clear-History  
 ```
 
 ## References
