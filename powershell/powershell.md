@@ -99,8 +99,8 @@ Mode                LastWriteTime         Length Name
 ------       04/21/2017     08:39              0 untitled.txt
 ```
 
-## Creating a new directory or file
-On unix systems, `touch` and `mkdir` allow us to create a new file or new directory respectively. Powershell cmdlet `New-Item` can create both files and directories. We need to use the _ItemType_ parameter, otherwise the default creates a new file.
+## Creating a new items
+On unix systems, `touch` and `mkdir` allow us to create a new file or new directory respectively. Powershell cmdlet `New-Item` [5] can create both files and directories. We need to use the _ItemType_ parameter, otherwise the default creates a new file.
  Creating a file:
 ```shell
 New-Item -Name "newFile.txt" -ItemType File                                                                            
@@ -136,3 +136,5 @@ d-----       02/21/2018     14:52                newDir
 - [3] https://docs.microsoft.com/en-us/powershell/module/Microsoft.PowerShell.Management/Get-Location?view=powershell-6
 
 - [4] https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-6
+
+- [5] https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/new-item?view=powershell-6
