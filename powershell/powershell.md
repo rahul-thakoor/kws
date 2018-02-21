@@ -1,13 +1,13 @@
-# Powershell equivalents for some common unix commands
+# PowerShell equivalents for some common unix commands
 
-![powershell](PowerShell.png)
+![PowerShell](PowerShell.png)
 
 ## Introduction
 
-Powershell [1] is a task-based command-line tool and a scripting language. Originally developed for Windows, on 18 August 2016 Microsoft open sourced Powershell with support for other platforms such as macOS and Linux. Powershell uses the "Verb-Noun" syntax for commands which are known as _cmdlets_. In this article we are going to introduce some powershell cmdlets for common unix commands.
+PowerShell [1] is a task-based command-line tool and a scripting language. Originally developed for Windows, on 18 August 2016 Microsoft open sourced PowerShell with support for other platforms such as macOS and Linux [2]. PowerShell uses the "Verb-Noun" syntax for commands which are known as _cmdlets_. In this article we are going to introduce some PowerShell cmdlets for common unix commands.
 
 ## Getting help
-On unix systems, the command `man` gives help on a specific command. Powershell provides information about commands and concepts through the `Get-Help` cmdlet [2].
+On unix systems, the command `man` gives help on a specific command. PowerShell provides information about commands and concepts through the `Get-Help` cmdlet [3].
 
 ```shell
 Get-Help <cmdlet>
@@ -33,7 +33,7 @@ To list all help topics on the system:
     Get-Help *
 ```
 
-Powershell also provides contextual help on topics. Use
+PowerShell also provides contextual help on topics. Use
 
 ```
 Get-Help about_\<topic-name\>
@@ -47,7 +47,7 @@ Get-Help about_Comparison_Operators
 
 ## Display working directory name
 
-On unix systems, `pwd` returns the current working directory name. The equivalent for Powershell is `Get-Location` [3] cmdlet. 
+On unix systems, `pwd` returns the current working directory name. The equivalent for PowerShell is `Get-Location` [4] cmdlet. 
 
 ```shell
 PS /bin> Get-Location                                                               
@@ -57,7 +57,7 @@ Path
 /bin
 
 ```
-Fortunately, powershell has built-in aliases for common unix commands. Therefore, `pwd` is same as running the `Get-Location` cmdlet.
+Fortunately, PowerShell has built-in aliases for common unix commands. Therefore, `pwd` is same as running the `Get-Location` cmdlet.
 
 ```
 PS /bin> pwd                                                                        
@@ -70,10 +70,10 @@ Path
 
 ## Changing Directory
 
-`cd` allows a unix user to set the current working location to a specified location.. The powershell equivalent is `Set-Location`[4] with aliases `sl`, `cd` and `chdir`.
+`cd` allows a unix user to set the current working location to a specified location.. The PowerShell equivalent is `Set-Location`[5] with aliases `sl`, `cd` and `chdir`.
 
 ## Listing Directory Contents
-On unix, the command `ls` displays contents of a specified location. Powershell has a similar alias, which references the `Get-ChildItem` cmdlet. Similar to unix, we can add options to a particular cmdlet.
+On unix, the command `ls` displays contents of a specified location. PowerShell has a similar alias, which references the `Get-ChildItem` cmdlet. Similar to unix, we can add options to a particular cmdlet.
 For e.g, listing only files with `.txt` extension:
 
 ```shell
@@ -91,7 +91,7 @@ Mode                LastWriteTime         Length Name
 ```
 
 ## Creating new items
-On unix systems, `touch` and `mkdir` allow us to create a new file or new directory respectively. Powershell cmdlet `New-Item` [5] can create both files and directories. We need to use the _ItemType_ parameter, otherwise the default creates a new file.
+On unix systems, `touch` and `mkdir` allow us to create a new file or new directory respectively. PowerShell cmdlet `New-Item` [6] can create both files and directories. We need to use the _ItemType_ parameter, otherwise the default creates a new file.
  Creating a file:
 ```shell
 New-Item -Name "newFile.txt" -ItemType File                                                                            
@@ -135,7 +135,7 @@ Mode                LastWriteTime         Length Name
 ```
 
 ## More commands to explore
-Powershell has numerous cmdlets and utilities. To get a quick reference to some common commands, look for commands with aliases. 
+PowerShell has numerous cmdlets and utilities. To get a quick reference to some common commands, look for commands with aliases. 
 
 ```shell
 Get-Alias *                                                                                                            
@@ -153,14 +153,18 @@ Alias           clhy -> Clear-History
 
 ## Conclusion
 
-Powershell is a task-based command-line tool and a scripting language. It is available for most major operating systems such as macOS, Linux and Windows. Powershell has specific commands for tasks on the system which are known as _cmdlets_. Powershell also provides aliases for common unix commands.
+PowerShell is a task-based command-line tool and a scripting language. It is available for most major operating systems such as macOS, Linux and Windows. PowerShell has specific commands for tasks on the system which are known as _cmdlets_. PowerShell also provides aliases for common unix commands.
+
+
 ## References
 - [1] https://docs.microsoft.com/en-us/powershell/scripting/powershell-scripting?view=powershell-6
 
-- [2] https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/get-help?view=powershell-6
+- [2] https://en.wikipedia.org/wiki/PowerShell
 
-- [3] https://docs.microsoft.com/en-us/powershell/module/Microsoft.PowerShell.Management/Get-Location?view=powershell-6
+- [3] https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/get-help?view=powershell-6
 
-- [4] https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-6
+- [4] https://docs.microsoft.com/en-us/powershell/module/Microsoft.PowerShell.Management/Get-Location?view=powershell-6
 
-- [5] https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/new-item?view=powershell-6
+- [5] https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-6
+
+- [6] https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/new-item?view=powershell-6
