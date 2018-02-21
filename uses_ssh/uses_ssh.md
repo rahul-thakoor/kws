@@ -27,7 +27,7 @@ SSH Tunneling sets up a secure channel between the client and a server using SSH
 - Dynamic Port Forwarding
 
 ### Local Port Forwarding
-Local Port Forwarding is tne most common type of tunneling used. It allows you to connect to another server from your local machine. This is commonly used to bypass certain firewall rules. 
+Local Port Forwarding is the most common type of tunneling used. It allows you to connect to another server from your local machine. This is commonly used to bypass certain firewall rules. 
 
 For example, let's assume that `supinfo.com` is blocked on our local network. We could create a tunnel through another server on another network then access it locally.
 
@@ -49,7 +49,7 @@ Then, phpMyAdmin would be available on local machine at `http://127.0.0.1:8888/p
 !["phpMyAdmin"](phpmyadmin_remote.png)
 
 ### Remote Port Forwarding
-Remote Port Forwarding, also called Reverse SSH, is used to provide access to a service running locally on the machine from a remote network. A simple example would be sharing access to web app running locally to a colleague with deploying the app. Typically, we would need to know our public IP address and configure NAT and firewall rules to allow someone to connect remotely to services running locally on our machine. 
+Remote Port Forwarding, also called Reverse SSH, is used to provide access to a service running locally on the machine from a remote network. A simple example would be sharing access to web app running locally to a colleague without deploying the app. Typically, we would need to know our public IP address and configure NAT and firewall rules to allow someone to connect remotely to services running locally on our machine. 
 
 Remote Port Forwarding allows us to give remote access to local services via a third publicly accessible server. To enable it, the `/etc/ssh/sshd_config` file needs to be modified by adding :
 
