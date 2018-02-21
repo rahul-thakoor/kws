@@ -57,12 +57,7 @@ Path
 /bin
 
 ```
-Fortunately, powershell has built-in aliases for common unix commands. Therefore,
-
-```
-    pwd
-```
-is same as running the `Get-Location` cmdlet.
+Fortunately, powershell has built-in aliases for common unix commands. Therefore, `pwd` is same as running the `Get-Location` cmdlet.
 
 ```
 PS /bin> pwd                                                                        
