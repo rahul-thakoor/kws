@@ -151,7 +151,7 @@ keyboard /kiːbɔːd/
 ```
 
 ## Conclusion
-Finding information quickly and easily from the command line interface can be very helpful. In this article we introduced how to use the command line utility `curl` to query an online dictionary `dict.org` using the DICT protocol. Queries can be limited to certain dictionaries which also allow the translation.
+Finding information quickly and easily from the command line interface can be very helpful. In this article we introduced how to use the command line utility `curl` to query an online dictionary `dict.org` using the DICT protocol. Queries can be limited to certain dictionaries which also allow translation.
 
 ## References
 
