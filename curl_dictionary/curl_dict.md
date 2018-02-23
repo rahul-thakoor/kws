@@ -82,12 +82,81 @@ There can be cases where no definitions are found:
 ```
 
 ## Refining searches
-Querying `dict.org` directly returns results from the first dictionary in which the query matches. In the above example, the dicitonary is `The Collaborative International Dictionary of English v.0.48`.
+Querying `dict.org` directly returns results from the first dictionary in which the query matches. In the above example, the dicitonary is `The Collaborative International Dictionary of English v.0.48`. However, dict.org contains several dictionaries. To list all available dicitionaries:[3]
 
+```shell
+curl dict.org/show:db
 
+220 pan.alephnull.com dictd 1.12.1/rf on Linux 4.4.0-1-amd64 <auth.mime> <12789237.19828.1519406821@pan.alephnull.com>
+250 ok
+110 72 databases present
+gcide "The Collaborative International Dictionary of English v.0.48"
+wn "WordNet (r) 3.0 (2006)"
+moby-thesaurus "Moby Thesaurus II by Grady Ward, 1.0"
+elements "The Elements (07Nov00)"
+vera "V.E.R.A. -- Virtual Entity of Relevant Acronyms (September 2014)"
+jargon "The Jargon File (version 4.4.7, 29 Dec 2003)"
+foldoc "The Free On-line Dictionary of Computing (18 March 2015)"
+easton "Easton's 1897 Bible Dictionary"
+hitchcock "Hitchcock's Bible Names Dictionary (late 1800's)"
+bouvier "Bouvier's Law Dictionary, Revised 6th Ed (1856)"
+devil "The Devil's Dictionary (1881-1906)"
+...
+
+```
+
+To query a word using a specific dictionary:
+
+`curl dict.org/d:<word>:<dict>`
+
+e.g Look up `algorithm` in "The Free On-line Dictionary of Computing":
+
+```shell
+curl dict.org/d:algorithm:foldoc
+
+151 "algorithm" foldoc "The Free On-line Dictionary of Computing (18 March 2015)"
+algorithm
+
+   <algorithm, programming> A detailed sequence of actions to
+   perform to accomplish some task.  Named after the Iranian,
+   Islamic mathematician, astronomer, astrologer and geographer,
+   {Muhammad ibn Musa al-Khwarizmi}.
+
+   Technically, an algorithm must reach a result after a {finite}
+   number of steps, thus ruling out {brute force} search methods
+   for certain problems, though some might claim that brute force
+   search was also a valid (generic) algorithm.  The term is also
+   used loosely for any sequence of actions (which may or may not
+   terminate).
+
+   {Paul E. Black's Dictionary of Algorithms, Data Structures,
+   and Problems (http://nist.gov/dads/)}.
+
+   (2002-02-05)
+
+```
+
+## Translating a word
+
+`dict.org` also contains several translation dictionaries such as the "French-English FreeDict Dictionary".
+To translate a word, simply look for it in the corresponding dictionary.
+
+E.g Translating `keyboard` to french:
+
+```shell
+curl dict.org/d:keyboard:fd-eng-fra
+
+keyboard /kiːbɔːd/
+ clavier
+```
+
+## Conclusion
+Finding information quickly and easily from the command line interface can be very helpful. In this article we introduced how to use the command line utility `curl` to query an online dictionary `dict.org` using the DICT protocol. Queries can be limited to certain dictionaries which also allow the translation.
 
 ## References
 
 [1] https://en.wikipedia.org/wiki/CURL
 
 [2] https://en.wikipedia.org/wiki/DICT
+
+[3] https://www.thegeekstuff.com/2012/04/curl-examples/?utm_source=feedburner
