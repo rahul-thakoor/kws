@@ -15,6 +15,8 @@ DICT is a dictionary network protocol created by the DICT Development Group.[2] 
 ### dict.org
 `dict.org` is a website that hosts several dictionaries and understands the DICT dictionary protocol. It also provides a web interface to query the dictionaries.
 
+![dict.org](dict.png)
+
 ## Query a word
 Look up the definition of a word by using the command:
 
@@ -75,6 +77,8 @@ Telephone \Tel\"e*phone\, v. t.
 There can be cases where no definitions are found:
 
 ```shell
+curl dict.org/d:smartphone
+
 220 pan.alephnull.com dictd 1.12.1/rf on Linux 4.4.0-1-amd64 <auth.mime> <12788573.11258.1519406381@pan.alephnull.com>
 250 ok
 552 no match [d/m/c = 0/0/148; 0.000r 0.000u 0.000s]
@@ -160,3 +164,5 @@ Finding information quickly and easily from the command line interface can be ve
 [2] https://en.wikipedia.org/wiki/DICT
 
 [3] https://www.thegeekstuff.com/2012/04/curl-examples/?utm_source=feedburner
+
+[4] http://www.dict.org/links.html
