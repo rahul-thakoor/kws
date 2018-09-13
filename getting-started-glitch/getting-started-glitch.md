@@ -32,6 +32,7 @@ The `hello-webpage` project has the following structure:
 
 ```
 .
+├── assets
 ├── README.md
 ├── index.html
 ├── public
@@ -101,9 +102,101 @@ alert('hi, Supinfo!');
 
 Of course, you are not limited to this. you can create additional files and even upload assets such as images.
 
-## Develop Node.js apps
+## A Node.js app
 
-## What next?
+The most powerful feature of Glitch is the ability to develop `Node.js` apps right in the browser.
+
+Get started by creating a project based on the `hello-express` app. The project has the following structure:
+
+```
+.
+├── assets
+├── README.md
+├── package.json
+├── public
+│   ├── client.js
+│   └── style.css
+├── server.js
+├── shrinkwrap.yaml
+└── views
+    └── index.html
+
+2 directories, 7 files
+```
+The `README.md` contains the following useful instructions:
+
+- Front-End:
+    - The files related to the front end live in the `public` directory
+    - We can add files such as images, and other media in the `assets` directorys
+
+- Back-End:
+    - The Node app starts at `server.js`
+    - We can add additional packages by modifying the `package.json` file
+
+Indeed, since we just remixed the express demo app, the package.json has the only dependency:
+
+```json
+{
+  "//1": "describes your app and its dependencies",
+  "//2": "https://docs.npmjs.com/files/package.json",
+  "//3": "updating this file will download and update your packages",
+  "name": "hello-express",
+  "version": "0.0.1",
+  "description": "A simple Node app built on Express, instantly up and running.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "engines": {
+    "node": "8.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/hello-express"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ]
+}
+```
+
+Modify the `package.json` to use the `moment` package:
+
+```json
+{
+  "name": "hello-express",
+  "version": "0.0.1",
+  "description": "A simple Node app built on Express, instantly up and running.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "moment":"2.22.2"
+  },
+  "engines": {
+    "node": "8.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/hello-express"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ]
+}
+
+```
+
+
 
 ## Conclusion
 
