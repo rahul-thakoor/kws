@@ -44,7 +44,6 @@ The `hello-webpage` project has the following structure:
 ├── style.css
 └── views
 
-2 directories, 4 files
 ```
 You can see you app live by clicking on the `Show` button at the top. The website will open on a new tab at is available at `https://<unique-app-name>.glitch.me`
 
@@ -124,8 +123,6 @@ Get started by creating a project based on the `hello-express` app. The project 
 ├── shrinkwrap.yaml
 └── views
     └── index.html
-
-2 directories, 7 files
 ```
 The `README.md` contains the following useful instructions:
 
@@ -241,7 +238,7 @@ var listener = app.listen(process.env.PORT, function() {
 
  ![now route](glitch-now.png)
 
-That's it! you can explore the glitch platform further, and even create awesome projects that others can remix.
+That's it! You can explore the glitch platform further, and even create awesome projects that others can remix.
 
 ## Conclusion
 This article gives an overview of the Glitch platform which allows easy and free Javascript and Node.js development in the browser. Glitch provides working example apps that users can start with and build their projects upon.
@@ -249,3 +246,5 @@ This article gives an overview of the Glitch platform which allows easy and free
 ## References
 1. https://medium.com/glitch/what-is-glitch-90cd75e40277
 2. https://glitch.com/about
+3. http://momentjs.com/docs/
+4. https://expressjs.com/
