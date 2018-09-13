@@ -238,3 +238,4 @@ This article introduces the `Get-FileHash` cmdlet which can be used to compute h
 3. https://en.wikipedia.org/wiki/Comparison_of_cryptographic_hash_functions
 4. https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/format-list?view=powershell-6
 5. https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/out-file?view=powershell-6
+6. https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/hello-world-your-first-program
