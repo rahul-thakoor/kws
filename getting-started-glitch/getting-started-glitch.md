@@ -6,6 +6,10 @@ Glitch is an online community that makes building, hosting and deploying javascr
 
 In this article we are going to see how to get started with the Glitch platform.
 
+## Prerequisites
+
+This article assumes some familiarity with Javascript and Node.js programming and the Express.js framework.
+
 ## First steps
 
 Although you can get started directly, it is advisable to sign in so that you can easily find your apps next time. You can choose to sign in using Github or Facebook.
@@ -133,7 +137,7 @@ The `README.md` contains the following useful instructions:
     - The Node app starts at `server.js`
     - We can add additional packages by modifying the `package.json` file
 
-Indeed, since we just remixed the express demo app, the package.json has the only dependency:
+Indeed, since we just remixed the express demo app, the `package.json` only has `express` as dependency:
 
 ```json
 {
@@ -165,7 +169,7 @@ Indeed, since we just remixed the express demo app, the package.json has the onl
 }
 ```
 
-Modify the `package.json` to use the `moment` package:
+Modify the `package.json` to use the `moment` package by adding it to the dependcies:
 
 ```json
 {
@@ -196,9 +200,51 @@ Modify the `package.json` to use the `moment` package:
 
 ```
 
+We can define a new route which uses the newly added package. There is no need to do `npm install`, Glitch takes care of this.
 
+Edit the `server.js` to the following:
+
+```js
+// server.js
+// where your node app starts
+
+// init project
+var express = require('express');
+var app = express();
+var moment = require('moment')
+
+// we've started you off with Express, 
+// but feel free to use whatever libs or frameworks you'd like through `package.json`.
+
+// http://expressjs.com/en/starter/static-files.html
+app.use(express.static('public'));
+
+// http://expressjs.com/en/starter/basic-routing.html
+app.get('/', function(request, response) {
+  response.sendFile(__dirname + '/views/index.html');
+});
+
+//#################################################
+// add a route to get the time using moment.js
+app.get('/now',function(request, response){
+  response.send(moment());
+});
+//#################################################
+
+// listen for requests :)
+var listener = app.listen(process.env.PORT, function() {
+  console.log('Your app is listening on port ' + listener.address().port);
+});
+
+```
+ When we hit the `/now` endpoint on our app, it should send the date and time
+
+ ![now route](glitch-now.png)
+
+That's it! you can explore the glitch platform further, and even create awesome projects that others can remix.
 
 ## Conclusion
+This article gives an overview of the Glitch platform which allows easy and free Javascript and Node.js development in the browser. Glitch provides working example apps that users can start with and build their projects upon.
 
 ## References
 1. https://medium.com/glitch/what-is-glitch-90cd75e40277
