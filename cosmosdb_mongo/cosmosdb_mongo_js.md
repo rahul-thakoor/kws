@@ -88,21 +88,124 @@ const dbname = "supinfodb";
 These are required for establishing a connection to the emulator. 
 
 ```js
-var db;
-MongoClient.connect(url, function(err, client) {  
+MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
     assert.equal(null, err);
     console.log('connection successful')
-    db=client.db(dbname);
+
+    // get the database
+    const db=client.db(dbname);
+
+
+    // close the connection
+
+    client.close();
+
+
     
     }
 );
 
 ```
 
+Test if the connection to the database was successful by running the program.
+
+```bash
+ node index.js
+```
+
+The output in the console should be `connection successful`
+
 ## Basic CRUD 
+
+Now that we have connected to the database, let's create a document. A document is inserted in a collection. For example,
+in our database `supinfo` we could have several collections. Let's create a document that is inserted in the `1WEB` collection.
+
+```js
+MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
+    assert.equal(null, err);
+    console.log('connection successful')
+
+    // get the database
+    const db=client.db(dbname);
+
+    // get the required collection, 1WEB here
+
+    const collection = db.collection('1WEB');
+
+    console.log('Getting collection successful');
+
+    // insert document into collection
+
+    const doc = {
+        assignment: {
+            id: "MP1",
+            description: "Puzzler- Use HTML5 to create a mini puzzle game",
+            module: "1WEB",
+            deadline: "25-09-2018"
+        }
+    }
+    collection.insertOne(doc, function(err,res){
+        assert.equal(null,err);
+        assert.equal(1, res.ops.length);
+    });
+
+    console.log('Document created');
+
+    // close the connection
+
+    client.close();
+
+
+    
+    }
+);
+```
+
+The expected output in the console is as follows:
+
+```
+connection successful
+Getting collection successful
+Document created
+```
+
+At this point, we can use the Data Explorer to check the document in the browser.
+
+If we go to the `Explorer` pane, we can see the `supindodb` database with the `1WEB` collection and the inserted document.
+
+An `id` is generated for the document when it is inserted.
+
+E.g in my case, the `id` is `5ba4782729df2d4fcc25f800`
+
+When we click on the document, we can the the contents. We might have to click refresh to see the document. The document has the following struture:
+
+```json
+{
+    "_id": {
+        "$oid": "5ba4782729df2d4fcc25f800"
+    },
+    "assignment": {
+        "$id": "MP1",
+        "description": "Puzzler- Use HTML5 to create a mini puzzle game",
+        "module": "1WEB",
+        "deadline": "25-09-2018"
+    },
+    "id": "5ba4782729df2d4fcc25f800",
+    "_rid": "tEF8AMDV+wADAAAAAAAAAA==",
+    "_self": "dbs/tEF8AA==/colls/tEF8AMDV+wA=/docs/tEF8AMDV+wADAAAAAAAAAA==/",
+    "_etag": "\"00000000-0000-0000-5166-5d4368d701d4\"",
+    "_attachments": "attachments/",
+    "_ts": 1537505319
+}
+```
+
+We can see there are additional `metadata` added when a document is inserted.
+
+We can also create several documents at once:
+
 
 
 ## References
 
-1. 
+1. http://mongodb.github.io/node-mongodb-native/3.1/quick-start/quick-start/
 2. https://docs.mongodb.com/ecosystem/drivers/
