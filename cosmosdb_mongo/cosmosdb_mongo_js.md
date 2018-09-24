@@ -117,6 +117,8 @@ The output in the console should be `connection successful`
 
 ## Basic CRUD 
 
+### Create 
+
 Now that we have connected to the database, let's create a document. A document is inserted in a collection. For example,
 in our database `supinfo` we could have several collections. Let's create a document that is inserted in the `1WEB` collection.
 
@@ -203,7 +205,148 @@ We can see there are additional `metadata` added when a document is inserted.
 
 We can also create several documents at once:
 
+```js
+MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
+    assert.equal(null, err);
+    console.log('connection successful')
 
+    // get the database
+    const db=client.db(dbname);
+
+    // get the required collection, 1WEB here
+
+    const collection = db.collection('ASC1 Modules');
+
+    console.log('Getting collection successful');
+
+    // insert document into collection
+
+    const doc = [
+        {
+            id:"1WEB",
+            title:"HTML & JavaScript - User Interface",
+            ects: 3,
+        },
+
+        {
+            id:"1LIN",
+            title:"Linux Technologies - System Fundamentals",
+            ects: 3,
+            description: "Comme son nom l'indique, le cours 1WEB vous fera découvrir le développement web via les langages HTML, CSS et JavaScript. Il vous présentera également le framework jQuery. Ce cours vous permettra d’acquérir l'ensemble des notions essentielles pour développer des sites internet avec les technologies HTML, CSS et JavaScript. Il vous présentera également une introduction à la toute dernière mouture d’HTML (version 5) avec son lot de nouveautés. Il n’est plus nécessaire de présenter les avantages d’internet et sa facilité d’accès pour ses internautes. La facilité d’accès à l’information, les interconnexions omniprésentes et la liberté d’expression sont autant de facteurs expliquant le succès de « La Toile ». Le réseau des réseaux est également simple à appréhender pour les développeurs, faisant de l’HTML, de CSS et de JavaScript des éléments de programmation simples à appréhender pour les codeurs en herbe. jQuery est une librairie JavaScript développée par John Resig en 2006 qui est aujourd’hui utilisée dans un grand nombre de sites. Ses atouts résident dans la simplification de la syntaxe de langage et de certaines opérations de calcul, de parcours et d’animation. Elle vous permettra de créer simplement des interactions de qualité pour rendre votre site ergonomique."
+        },
+
+        {
+            id:"1CNA",
+            title:"CCNA Routing & Switching Part 1",
+            ects: 3,
+            description: "Le cours 1CNA - Cisco CCNA Routing & Switching - Part 1 vous permettra de découvrir les réseaux informatiques, comment ils fonctionnent mais aussi les enjeux cruciaux liés à ceux-ci. Comme vous le savez, les réseaux sont présents de plus en plus dans nos vies quotidiennes et connectent des millions de personnes dans le monde entier. Les nouveaux enjeux liés à l’Internet of Things et l’Internet of Everything sont également un tremplin de plus pour faire évoluer les réseaux et la consumérisation des ressources, de la perspective de l’utilisateur final. La première partie du cours, CCNA 1 - Introduction to Networks vous introduira aux fondamentaux des réseaux, tant en termes globaux que techniques. Il vous permettra également de découvrir comment est construit un réseau physique et logique et comment l’organiser pour répondre aux besoins clients. La deuxième partie de celui-ci, CCNA 2 - Routing & Switching Essentials vous permettra d’aborder les concepts techniques de routage et de commutation, dans un cadre local comme d’interconnexion entre sites. Vous apprendrez des concepts essentiels concernant ces deux domaines."
+        },
+
+
+        ];
+    collection.insertMany(doc, function(err,res){
+        assert.equal(null,err);
+        assert.equal(3, res.ops.length);
+    });
+
+    console.log('Document created');
+
+    // close the connection
+
+    client.close();
+
+
+    
+    }
+);
+```
+
+![Insert Many Image](./insertmany.PNG)
+
+This create a collection called `ASC Modules` and inserts three documents at once. Note: The description field for `1WEB` is deliberately left out and similarly the content of the description for `1LIN` is intentionally wrong so we can illustrate how to read these documents and update them.
+
+Next, we can explore how to read from the database.
+
+### Read
+
+We can find all documents in a collection as follows:
+
+```js
+MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
+    assert.equal(null, err);
+    console.log('connection successful')
+
+    // get the database
+    const db=client.db(dbname);
+
+    // get the required collection
+
+    const collection = db.collection('ASC1 Modules');
+
+    console.log('Getting collection successful');
+
+    // find all documents in the collection
+
+    collection.find({}).toArray(function(err, docs) {
+        assert.equal(err, null);
+        console.log("Found the following documents");
+        console.log(docs)
+        
+      });
+
+    // close the connection
+
+    client.close();
+    
+    }
+);
+```
+This prints out all the documents, 3 in our case.
+
+We can also filter the query. For instance, let's find documents that do not have the `description` field set:
+
+```js
+MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
+    assert.equal(null, err);
+    console.log('connection successful')
+
+    // get the database
+    const db=client.db(dbname);
+
+    // get the required collection
+
+    const collection = db.collection('ASC1 Modules');
+
+    console.log('Getting collection successful');
+
+    // find all documents in the collection which do not have have a description
+    // i.e, description field is null
+
+    collection.find({description:null}).toArray(function(err, docs) {
+        assert.equal(err, null);
+        console.log("Found the following documents");
+        console.log(docs)
+        
+      });
+    // close the connection
+
+    client.close();
+  
+    }
+);
+```
+
+This returns the following output:
+
+```
+connection successful
+Getting collection successful
+Found the following documents
+[ { _id: 5ba86422d528840c10312e8e,
+    id: '1WEB',
+    title: 'HTML & JavaScript - User Interface',
+    ects: 3 } ]
+```
 
 ## References
 
