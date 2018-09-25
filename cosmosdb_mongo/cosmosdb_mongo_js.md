@@ -348,6 +348,160 @@ Found the following documents
     ects: 3 } ]
 ```
 
+### Update
+
+To update the above document to add a description field we can do the following:
+
+```js
+MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
+    assert.equal(null, err);
+    console.log('connection successful')
+
+    // get the database
+    const db=client.db(dbname);
+
+    // get the required collection
+
+    const collection = db.collection('ASC1 Modules');
+
+    console.log('Getting collection successful');
+
+    // Update document where a is 2, set b equal to 1
+    let descriptionContent = "Comme son nom l'indique, le cours 1WEB vous fera découvrir le développement web via les langages HTML, CSS et JavaScript. Il vous présentera également le framework jQuery. Ce cours vous permettra d’acquérir l'ensemble des notions essentielles pour développer des sites internet avec les technologies HTML, CSS et JavaScript. Il vous présentera également une introduction à la toute dernière mouture d’HTML (version 5) avec son lot de nouveautés. Il n’est plus nécessaire de présenter les avantages d’internet et sa facilité d’accès pour ses internautes. La facilité d’accès à l’information, les interconnexions omniprésentes et la liberté d’expression sont autant de facteurs expliquant le succès de « La Toile ». Le réseau des réseaux est également simple à appréhender pour les développeurs, faisant de l’HTML, de CSS et de JavaScript des éléments de programmation simples à appréhender pour les codeurs en herbe. jQuery est une librairie JavaScript développée par John Resig en 2006 qui est aujourd’hui utilisée dans un grand nombre de sites. Ses atouts résident dans la simplification de la syntaxe de langage et de certaines opérations de calcul, de parcours et d’animation. Elle vous permettra de créer simplement des interactions de qualité pour rendre votre site ergonomique.";
+  collection.updateOne({ id : "1WEB" }
+    , { $set: { description : descriptionContent } }, function(err, result) {
+    assert.equal(err, null);
+    assert.equal(1, result.result.n);
+    console.log("Updated the document with id 1WEB");
+    callback(result);
+  });  
+    // close the connection
+
+    client.close();
+  
+    }
+);
+```
+
+The `1WEB` document now has a description field. 
+
+```js
+{
+    "_id": {
+        "$oid": "5ba86422d528840c10312e8e"
+    },
+    "$id": "1WEB",
+    "title": "HTML & JavaScript - User Interface",
+    "ects": 3,
+    "id": "5ba86422d528840c10312e8e",
+    "_rid": "tEF8AJZLIgABAAAAAAAAAA==",
+    "_self": "dbs/tEF8AA==/colls/tEF8AJZLIgA=/docs/tEF8AJZLIgABAAAAAAAAAA==/",
+    "_etag": "\"00000000-0000-0000-5488-aa22c4b401d4\"",
+    "_attachments": "attachments/",
+    "description": "Comme son nom l'indique, le cours 1WEB vous fera découvrir le développement web via les langages HTML, CSS et JavaScript. Il vous présentera également le framework jQuery. Ce cours vous permettra d’acquérir l'ensemble des notions essentielles pour développer des sites internet avec les technologies HTML, CSS et JavaScript. Il vous présentera également une introduction à la toute dernière mouture d’HTML (version 5) avec son lot de nouveautés. Il n’est plus nécessaire de présenter les avantages d’internet et sa facilité d’accès pour ses internautes. La facilité d’accès à l’information, les interconnexions omniprésentes et la liberté d’expression sont autant de facteurs expliquant le succès de « La Toile ». Le réseau des réseaux est également simple à appréhender pour les développeurs, faisant de l’HTML, de CSS et de JavaScript des éléments de programmation simples à appréhender pour les codeurs en herbe. jQuery est une librairie JavaScript développée par John Resig en 2006 qui est aujourd’hui utilisée dans un grand nombre de sites. Ses atouts résident dans la simplification de la syntaxe de langage et de certaines opérations de calcul, de parcours et d’animation. Elle vous permettra de créer simplement des interactions de qualité pour rendre votre site ergonomique.",
+    "_ts": 1537849904
+}
+
+```
+Similarly we can update the `1LIN` document to it's correct description. It currently has the description for `1WEB`:
+
+We simply have to change the following:
+
+```js
+let descriptionContent = "<Description for 1LIN module>"
+
+collection.updateOne({ id : "1LIN" }
+    , { $set: { description : descriptionContent } }, function(err, result) {
+    assert.equal(err, null);
+    assert.equal(1, result.result.n);
+    console.log("Updated the document with id 1LIN");
+    callback(result);
+  }); 
+
+```
+
+### Delete
+
+Let's assume we were trying to add a document for `2WEB` but inserted the document in the `ASC1 Modules` collection by mistake:
+
+```js
+MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
+    assert.equal(null, err);
+    console.log('connection successful')
+
+    // get the database
+    const db=client.db(dbname);
+
+    // get the required collection, ASC1 Modules here 
+
+    const collection = db.collection('ASC1 Modules');
+
+    console.log('Getting collection successful');
+
+    // insert document into collection
+
+    const doc = {
+        {
+            id:"2WEB",
+            title:"Web programming with PHP",
+            ects: 3,
+            description: "<2WEB description>"
+        },
+    }
+    collection.insertOne(doc, function(err,res){
+        assert.equal(null,err);
+        assert.equal(1, res.ops.length);
+    });
+
+    console.log('Document created');
+
+    // close the connection
+
+    client.close();
+
+
+    
+    }
+);
+
+```
+
+![2WEB document incorrectly inserted in ASC1 Module collection](./wrongInsert.PNG)
+
+We can delete the particular document using:
+
+```js
+MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
+    assert.equal(null, err);
+    console.log('connection successful')
+
+    // get the database
+    const db=client.db(dbname);
+
+    // get the required collection
+
+    const collection = db.collection('ASC1 Modules');
+
+    console.log('Getting collection successful');
+
+    
+     // Delete document where a is 3
+    collection.deleteOne({ id : "2WEB" }, function(err, result) {
+        assert.equal(err, null);
+        assert.equal(1, result.result.n);
+        console.log("Removed the document with the id 2WEB");
+    });    
+
+    // close the connection
+
+    client.close();
+  
+    }
+);
+```
+
+This deletes the document.
+
 ## References
 
 1. http://mongodb.github.io/node-mongodb-native/3.1/quick-start/quick-start/
