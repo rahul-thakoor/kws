@@ -60,35 +60,46 @@ You should replace `<username>` and `<password>` appropriately.
 Modify your program's to the following:
 
 ```go
+package main
 
+import (
+	"log"
+	"context"
+	"time"
+	"github.com/mongodb/mongo-go-driver/mongo"
+)
+
+func main() {
+	// Create context
+	ctx, _ := context.WithTimeout(context.Background(), 2*time.Second)
+
+	// Create client
+	client, err := mongo.Connect(ctx, "mongodb://supinfo:supinfo123@ds213645.mlab.com:13645/supinfo-kws-demo")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Check the connection
+	err = client.Ping(ctx, nil)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("connection successful")
+
+}
 ```
 
-These are required for establishing a connection to the emulator. 
 
-```js
-MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
-    assert.equal(null, err);
-    console.log('connection successful')
-
-    // get the database
-    const db=client.db(dbname);
+These are required for establishing a connection to the database server. 
 
 
-    // close the connection
-
-    client.close();
-
-
-    
-    }
-);
-
-```
 
 Test if the connection to the database was successful by running the program.
 
 ```bash
- node index.js
+ go run crud.go
 ```
 
 The output in the console should be `connection successful`
@@ -100,86 +111,76 @@ The output in the console should be `connection successful`
 Now that we have connected to the database, let's create a document. A document is inserted in a collection. For example,
 in our database `supinfo` we could have several collections. Let's create a document that is inserted in the `1WEB` collection.
 
-```js
-MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
-    assert.equal(null, err);
-    console.log('connection successful')
+```go
+package main
 
-    // get the database
-    const db=client.db(dbname);
+import (
+	"log"
+	"context"
+	"time"
+	"github.com/mongodb/mongo-go-driver/bson"
+	"github.com/mongodb/mongo-go-driver/mongo"
+)
 
-    // get the required collection, 1WEB here
+func main() {
+	// Create context
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
-    const collection = db.collection('1WEB');
+	// Create client
+	client, err := mongo.Connect(ctx, "mongodb://supinfo:supinfo123@ds213645.mlab.com:13645/supinfo-kws-demo")
 
-    console.log('Getting collection successful');
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    // insert document into collection
+	// Check the connection
+	err = client.Ping(ctx, nil)
 
-    const doc = {
-        assignment: {
-            id: "MP1",
-            description: "Puzzler- Use HTML5 to create a mini puzzle game",
-            module: "1WEB",
-            deadline: "25-09-2018"
-        }
-    }
-    collection.insertOne(doc, function(err,res){
-        assert.equal(null,err);
-        assert.equal(1, res.ops.length);
-    });
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("connection successful")
 
-    console.log('Document created');
+	collection := client.Database("supinfo-kws-demo").Collection("Assignments")
+	insertResult, err := collection.InsertOne(ctx, bson.M{"ID":"MP1", "Description":"Puzzler- Use HTML5 to create a mini puzzle game", "Module":"1WEB" , "Deadline":"25-09-2018" })
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    // close the connection
-
-    client.close();
-
-
+    log.Println("Inserted a single document: ", insertResult.InsertedID)
     
-    }
-);
+    // close connection
+    client.Disconnect(ctx)
 ```
 
 The expected output in the console is as follows:
 
 ```
-connection successful
-Getting collection successful
-Document created
+2019/01/30 16:50:38 connection successful
+2019/01/30 16:50:40 Inserted a single document:  ObjectID("5c51d5dec8f93d6c8d63ae51")
 ```
 
-At this point, we can use the Data Explorer to check the document in the browser.
+At this point, we can  check the document in the browser.
 
-If we go to the `Explorer` pane, we can see the `supindodb` database with the `1WEB` collection and the inserted document.
+If we go to the `mlab` , we can see the `supinfo` database with the `Assignments` collection and the inserted document.
 
-An `id` is generated for the document when it is inserted.
-
-E.g in my case, the `id` is `5ba4782729df2d4fcc25f800`
-
-When we click on the document, we can the the contents. We might have to click refresh to see the document. The document has the following struture:
+We might have to click refresh to see the document. The document has the following struture:
 
 ```json
 {
+
     "_id": {
-        "$oid": "5ba4782729df2d4fcc25f800"
+        "$oid": "5c51d5dec8f93d6c8d63ae51"
     },
-    "assignment": {
-        "$id": "MP1",
-        "description": "Puzzler- Use HTML5 to create a mini puzzle game",
-        "module": "1WEB",
-        "deadline": "25-09-2018"
-    },
-    "id": "5ba4782729df2d4fcc25f800",
-    "_rid": "tEF8AMDV+wADAAAAAAAAAA==",
-    "_self": "dbs/tEF8AA==/colls/tEF8AMDV+wA=/docs/tEF8AMDV+wADAAAAAAAAAA==/",
-    "_etag": "\"00000000-0000-0000-5166-5d4368d701d4\"",
-    "_attachments": "attachments/",
-    "_ts": 1537505319
+    "ID": "MP1",
+    "Description": "Puzzler- Use HTML5 to create a mini puzzle game",
+    "Module": "1WEB",
+    "Deadline": "25-09-2018"
+
 }
 ```
+!["Insert one"](insert_one.png)
 
-We can see there are additional `metadata` added when a document is inserted.
 
 We can also create several documents at once:
 
@@ -482,6 +483,7 @@ This deletes the document.
 
 ## References
  - [^go] https://en.wikipedia.org/wiki/Go_(programming_language)
-1. http://mongodb.github.io/node-mongodb-native/3.1/quick-start/quick-start/
-2. https://docs.mongodb.com/ecosystem/drivers/
-3. 
+ - http://mongodb.github.io/node-mongodb-native/3.1/quick-start/quick-start/
+ - https://docs.mongodb.com/ecosystem/drivers/
+ - https://godoc.org/github.com/mongodb/mongo-go-driver/mongo 
+ - https://blog.golang.org/context
