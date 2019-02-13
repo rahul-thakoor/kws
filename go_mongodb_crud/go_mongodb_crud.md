@@ -70,7 +70,7 @@ import (
 )
 
 func main() {
-	// Create context
+	// Create context, Note here timeout is 2 seconds
 	ctx, _ := context.WithTimeout(context.Background(), 2*time.Second)
 
 	// Create client
@@ -123,7 +123,7 @@ import (
 )
 
 func main() {
-	// Create context
+	// Create context, Note here timeout is 10 seconds
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
 	// Create client
@@ -181,68 +181,80 @@ We might have to click refresh to see the document. The document has the followi
 ```
 !["Insert one"](insert_one.png)
 
+MongoDB also generates an id when inserting an item;
 
 We can also create several documents at once:
 
-```js
-MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
-    assert.equal(null, err);
-    console.log('connection successful')
+```go
+package main
 
-    // get the database
-    const db=client.db(dbname);
+import (
+	"log"
+	"context"
+	"time"
+	"github.com/mongodb/mongo-go-driver/mongo"
+)
 
-    // get the required collection, 1WEB here
+func main() {
+	// Create context
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
-    const collection = db.collection('ASC1 Modules');
+	// Create client
+	client, err := mongo.Connect(ctx, "mongodb://supinfo:supinfo123@ds213645.mlab.com:13645/supinfo-kws-demo")
 
-    console.log('Getting collection successful');
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    // insert document into collection
+	// Check the connection
+	err = client.Ping(ctx, nil)
 
-    const doc = [
-        {
-            id:"1WEB",
-            title:"HTML & JavaScript - User Interface",
-            ects: 3,
-        },
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("connection successful")
 
-        {
-            id:"1LIN",
-            title:"Linux Technologies - System Fundamentals",
-            ects: 3,
-            description: "Comme son nom l'indique, le cours 1WEB vous fera découvrir le développement web via les langages HTML, CSS et JavaScript. Il vous présentera également le framework jQuery. Ce cours vous permettra d’acquérir l'ensemble des notions essentielles pour développer des sites internet avec les technologies HTML, CSS et JavaScript. Il vous présentera également une introduction à la toute dernière mouture d’HTML (version 5) avec son lot de nouveautés. Il n’est plus nécessaire de présenter les avantages d’internet et sa facilité d’accès pour ses internautes. La facilité d’accès à l’information, les interconnexions omniprésentes et la liberté d’expression sont autant de facteurs expliquant le succès de « La Toile ». Le réseau des réseaux est également simple à appréhender pour les développeurs, faisant de l’HTML, de CSS et de JavaScript des éléments de programmation simples à appréhender pour les codeurs en herbe. jQuery est une librairie JavaScript développée par John Resig en 2006 qui est aujourd’hui utilisée dans un grand nombre de sites. Ses atouts résident dans la simplification de la syntaxe de langage et de certaines opérations de calcul, de parcours et d’animation. Elle vous permettra de créer simplement des interactions de qualité pour rendre votre site ergonomique."
-        },
-
-        {
-            id:"1CNA",
-            title:"CCNA Routing & Switching Part 1",
-            ects: 3,
-            description: "Le cours 1CNA - Cisco CCNA Routing & Switching - Part 1 vous permettra de découvrir les réseaux informatiques, comment ils fonctionnent mais aussi les enjeux cruciaux liés à ceux-ci. Comme vous le savez, les réseaux sont présents de plus en plus dans nos vies quotidiennes et connectent des millions de personnes dans le monde entier. Les nouveaux enjeux liés à l’Internet of Things et l’Internet of Everything sont également un tremplin de plus pour faire évoluer les réseaux et la consumérisation des ressources, de la perspective de l’utilisateur final. La première partie du cours, CCNA 1 - Introduction to Networks vous introduira aux fondamentaux des réseaux, tant en termes globaux que techniques. Il vous permettra également de découvrir comment est construit un réseau physique et logique et comment l’organiser pour répondre aux besoins clients. La deuxième partie de celui-ci, CCNA 2 - Routing & Switching Essentials vous permettra d’aborder les concepts techniques de routage et de commutation, dans un cadre local comme d’interconnexion entre sites. Vous apprendrez des concepts essentiels concernant ces deux domaines."
-        },
-
-
-        ];
-    collection.insertMany(doc, function(err,res){
-        assert.equal(null,err);
-        assert.equal(3, res.ops.length);
-    });
-
-    console.log('Document created');
-
-    // close the connection
-
-    client.close();
+	// create a Module type representing a particular course module
+	type Module struct{
+		id string
+		title string
+		ects int
+		description string
+	}
 
 
+	// create some modules
+    cna1 := Module{"1CNA", "CCNA Routing & Switching Part 1", 3, "Le cours 1CNA - Cisco CCNA Routing & Switching - Part 1 vous permettra de découvrir les réseaux informatiques, comment ils fonctionnent mais aussi les enjeux cruciaux liés à ceux-ci. Comme vous le savez, les réseaux sont présents de plus en plus dans nos vies quotidiennes et connectent des millions de personnes dans le monde entier. Les nouveaux enjeux liés à l’Internet of Things et l’Internet of Everything sont également un tremplin de plus pour faire évoluer les réseaux et la consumérisation des ressources, de la perspective de l’utilisateur final. La première partie du cours, CCNA 1 - Introduction to Networks vous introduira aux fondamentaux des réseaux, tant en termes globaux que techniques. Il vous permettra également de découvrir comment est construit un réseau physique et logique et comment l’organiser pour répondre aux besoins clients. La deuxième partie de celui-ci, CCNA 2 - Routing & Switching Essentials vous permettra d’aborder les concepts techniques de routage et de commutation, dans un cadre local comme d’interconnexion entre sites. Vous apprendrez des concepts essentiels concernant ces deux domaines."}
     
-    }
-);
+    web1 := Module{"1WEB","HTML & JavaScript - User Interface", 3,""}
+    
+	lin1 := Module{"1LIN","Linux Technologies - System Fundamentals",3,"Comme son nom l'indique, le cours 1WEB vous fera découvrir le développement web via les langages HTML, CSS et JavaScript. Il vous présentera également le framework jQuery. Ce cours vous permettra d’acquérir l'ensemble des notions essentielles pour développer des sites internet avec les technologies HTML, CSS et JavaScript. Il vous présentera également une introduction à la toute dernière mouture d’HTML (version 5) avec son lot de nouveautés. Il n’est plus nécessaire de présenter les avantages d’internet et sa facilité d’accès pour ses internautes. La facilité d’accès à l’information, les interconnexions omniprésentes et la liberté d’expression sont autant de facteurs expliquant le succès de « La Toile ». Le réseau des réseaux est également simple à appréhender pour les développeurs, faisant de l’HTML, de CSS et de JavaScript des éléments de programmation simples à appréhender pour les codeurs en herbe. jQuery est une librairie JavaScript développée par John Resig en 2006 qui est aujourd’hui utilisée dans un grand nombre de sites. Ses atouts résident dans la simplification de la syntaxe de langage et de certaines opérations de calcul, de parcours et d’animation. Elle vous permettra de créer simplement des interactions de qualité pour rendre votre site ergonomique."}
+	
+	// Create a slice of several modules
+	modules := []interface{}{cna1,web1,lin1}
+
+	// Get collection in which docs will be inserted
+	collection := client.Database("supinfo-kws-demo").Collection("ASc1 Modules")
+
+	// insert multiple documents at once
+	res, err := collection.InsertMany(ctx, modules)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf(len(res.InsertedIDs))
+
+	// close connection
+	client.Disconnect(ctx)
+```
+The expected output in the console is as follows:
+```
+2019/02/13 06:37:14 connection successful
+2019/02/13 06:37:16 Successfully inserted 3 docs
 ```
 
-![Insert Many Image](./insertmany.PNG)
+![Insert Many Image](./insert_many.PNG)
 
-This create a collection called `ASC Modules` and inserts three documents at once. Note: The description field for `1WEB` is deliberately left out and similarly the content of the description for `1LIN` is intentionally wrong so we can illustrate how to read these documents and update them.
+This creates a collection called `ASc1 Modules` and inserts three documents at once. Note: The description field for `1WEB` is deliberately left out and similarly the content of the description for `1LIN` is intentionally wrong so we can illustrate how to read these documents and update them.
 
 Next, we can explore how to read from the database.
 
@@ -250,116 +262,204 @@ Next, we can explore how to read from the database.
 
 We can find all documents in a collection as follows:
 
-```js
-MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
-    assert.equal(null, err);
-    console.log('connection successful')
+```go
+package main
 
-    // get the database
-    const db=client.db(dbname);
+import (
+	"log"
+	"context"
+	"time"
+	"github.com/mongodb/mongo-go-driver/bson"
+	"github.com/mongodb/mongo-go-driver/mongo"
 
-    // get the required collection
+)
 
-    const collection = db.collection('ASC1 Modules');
+func main() {
+	// Create context
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
-    console.log('Getting collection successful');
+	// Create client
+	client, err := mongo.Connect(ctx, "mongodb://supinfo:supinfo123@ds213645.mlab.com:13645/supinfo-kws-demo")
 
-    // find all documents in the collection
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    collection.find({}).toArray(function(err, docs) {
-        assert.equal(err, null);
-        console.log("Found the following documents");
-        console.log(docs)
-        
-      });
+	// Check the connection
+	err = client.Ping(ctx, nil)
 
-    // close the connection
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("connection successful")
 
-    client.close();
-    
-    }
-);
+	// create a Module type representing a particular course module
+	type Module struct{
+		Id string
+		Title string
+		ECTS int
+		Description string
+	}
+
+	// Get collection
+	collection := client.Database("supinfo-kws-demo").Collection("ASc1 Modules")
+
+	cur, err := collection.Find(ctx, bson.D{})
+	if err != nil { log.Fatal(err) }
+	cur.Close(ctx)
+
+	for cur.Next(context.Background()) {
+	   raw, err := cur.DecodeBytes()
+	   if err != nil { log.Fatal(err) }
+
+		var result Module
+		err = bson.Unmarshal(raw, &result)
+		if err != nil { 
+			log.Fatal(err)
+		 }
+		log.Printf("Found a document: %+v\n", result)
+		
+
+	}
+	if err := cur.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	// close connection
+	client.Disconnect(ctx)
+
+
+}
 ```
 This prints out all the documents, 3 in our case.
 
 We can also filter the query. For instance, let's find documents that do not have the `description` field set:
 
-```js
-MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
-    assert.equal(null, err);
-    console.log('connection successful')
+```go
+package main
 
-    // get the database
-    const db=client.db(dbname);
+import (
+	"log"
+	"context"
+	"time"
+	"github.com/mongodb/mongo-go-driver/bson"
+	"github.com/mongodb/mongo-go-driver/mongo"
 
-    // get the required collection
+)
 
-    const collection = db.collection('ASC1 Modules');
+func main() {
+	// Create context
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
-    console.log('Getting collection successful');
+	// Create client
+	client, err := mongo.Connect(ctx, "mongodb://supinfo:supinfo123@ds213645.mlab.com:13645/supinfo-kws-demo")
 
-    // find all documents in the collection which do not have have a description
-    // i.e, description field is null
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    collection.find({description:null}).toArray(function(err, docs) {
-        assert.equal(err, null);
-        console.log("Found the following documents");
-        console.log(docs)
-        
-      });
-    // close the connection
+	// Check the connection
+	err = client.Ping(ctx, nil)
 
-    client.close();
-  
-    }
-);
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("connection successful")
+
+	// create a Module type representing a particular course module
+	type Module struct{
+		Id string
+		Title string
+		ECTS int
+		Description string
+	}
+
+	// Get collection
+	collection := client.Database("supinfo-kws-demo").Collection("ASc1 Modules")
+
+	var result Module
+	err = collection.FindOne(ctx, bson.D{{"description", ""}}).Decode(&result)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("Found document without description: %+v\n", result)
+
+	// close connection
+	client.Disconnect(ctx)
+
+}
 ```
 
 This returns the following output:
 
 ```
-connection successful
-Getting collection successful
-Found the following documents
-[ { _id: 5ba86422d528840c10312e8e,
-    id: '1WEB',
-    title: 'HTML & JavaScript - User Interface',
-    ects: 3 } ]
+2019/02/13 13:20:44 connection successful
+2019/02/13 13:20:46 Found document without description: {Id:1WEB Title:HTML & JavaScript - User Interface ECTS:3 Description:}
 ```
 
 ### Update
 
 To update the above document to add a description field we can do the following:
 
-```js
-MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
-    assert.equal(null, err);
-    console.log('connection successful')
+```go
+package main
 
-    // get the database
-    const db=client.db(dbname);
+import (
+	"log"
+	"context"
+	"time"
+	"github.com/mongodb/mongo-go-driver/bson"
+	"github.com/mongodb/mongo-go-driver/mongo"
 
-    // get the required collection
+)
 
-    const collection = db.collection('ASC1 Modules');
+func main() {
+	// Create context
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
-    console.log('Getting collection successful');
+	// Create client
+	client, err := mongo.Connect(ctx, "mongodb://supinfo:supinfo123@ds213645.mlab.com:13645/supinfo-kws-demo")
 
-    // Update document where a is 2, set b equal to 1
-    let descriptionContent = "Comme son nom l'indique, le cours 1WEB vous fera découvrir le développement web via les langages HTML, CSS et JavaScript. Il vous présentera également le framework jQuery. Ce cours vous permettra d’acquérir l'ensemble des notions essentielles pour développer des sites internet avec les technologies HTML, CSS et JavaScript. Il vous présentera également une introduction à la toute dernière mouture d’HTML (version 5) avec son lot de nouveautés. Il n’est plus nécessaire de présenter les avantages d’internet et sa facilité d’accès pour ses internautes. La facilité d’accès à l’information, les interconnexions omniprésentes et la liberté d’expression sont autant de facteurs expliquant le succès de « La Toile ». Le réseau des réseaux est également simple à appréhender pour les développeurs, faisant de l’HTML, de CSS et de JavaScript des éléments de programmation simples à appréhender pour les codeurs en herbe. jQuery est une librairie JavaScript développée par John Resig en 2006 qui est aujourd’hui utilisée dans un grand nombre de sites. Ses atouts résident dans la simplification de la syntaxe de langage et de certaines opérations de calcul, de parcours et d’animation. Elle vous permettra de créer simplement des interactions de qualité pour rendre votre site ergonomique.";
-  collection.updateOne({ id : "1WEB" }
-    , { $set: { description : descriptionContent } }, function(err, result) {
-    assert.equal(err, null);
-    assert.equal(1, result.result.n);
-    console.log("Updated the document with id 1WEB");
-    callback(result);
-  });  
-    // close the connection
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    client.close();
-  
-    }
-);
+	// Check the connection
+	err = client.Ping(ctx, nil)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("connection successful")
+
+	// create a Module type representing a particular course module
+	type Module struct{
+		Id string
+		Title string
+		ECTS int
+		Description string
+	}
+
+	// Get collection
+	collection := client.Database("supinfo-kws-demo").Collection("ASc1 Modules")
+
+	update := bson.D{
+		{"$set", bson.D{
+			{"description", "Comme son nom l'indique, le cours 1WEB vous fera découvrir le développement web via les langages HTML, CSS et JavaScript. Il vous présentera également le framework jQuery. Ce cours vous permettra d’acquérir l'ensemble des notions essentielles pour développer des sites internet avec les technologies HTML, CSS et JavaScript. Il vous présentera également une introduction à la toute dernière mouture d’HTML (version 5) avec son lot de nouveautés. Il n’est plus nécessaire de présenter les avantages d’internet et sa facilité d’accès pour ses internautes. La facilité d’accès à l’information, les interconnexions omniprésentes et la liberté d’expression sont autant de facteurs expliquant le succès de « La Toile ». Le réseau des réseaux est également simple à appréhender pour les développeurs, faisant de l’HTML, de CSS et de JavaScript des éléments de programmation simples à appréhender pour les codeurs en herbe. jQuery est une librairie JavaScript développée par John Resig en 2006 qui est aujourd’hui utilisée dans un grand nombre de sites. Ses atouts résident dans la simplification de la syntaxe de langage et de certaines opérations de calcul, de parcours et d’animation. Elle vous permettra de créer simplement des interactions de qualité pour rendre votre site ergonomique."},
+		}},
+	}
+	updateResult, err := collection.UpdateOne(ctx, bson.D{{"id", "1WEB"}}, update)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("Updated %v document(s).\n", updateResult.ModifiedCount)
+
+	// close connection
+	client.Disconnect(ctx)
+
+}
 ```
 
 The `1WEB` document now has a description field. 
@@ -367,18 +467,12 @@ The `1WEB` document now has a description field.
 ```js
 {
     "_id": {
-        "$oid": "5ba86422d528840c10312e8e"
+        "$oid": "5c63bb1aaf0afdc40ab4288a"
     },
-    "$id": "1WEB",
+    "id": "1WEB",
     "title": "HTML & JavaScript - User Interface",
     "ects": 3,
-    "id": "5ba86422d528840c10312e8e",
-    "_rid": "tEF8AJZLIgABAAAAAAAAAA==",
-    "_self": "dbs/tEF8AA==/colls/tEF8AJZLIgA=/docs/tEF8AJZLIgABAAAAAAAAAA==/",
-    "_etag": "\"00000000-0000-0000-5488-aa22c4b401d4\"",
-    "_attachments": "attachments/",
-    "description": "Comme son nom l'indique, le cours 1WEB vous fera découvrir le développement web via les langages HTML, CSS et JavaScript. Il vous présentera également le framework jQuery. Ce cours vous permettra d’acquérir l'ensemble des notions essentielles pour développer des sites internet avec les technologies HTML, CSS et JavaScript. Il vous présentera également une introduction à la toute dernière mouture d’HTML (version 5) avec son lot de nouveautés. Il n’est plus nécessaire de présenter les avantages d’internet et sa facilité d’accès pour ses internautes. La facilité d’accès à l’information, les interconnexions omniprésentes et la liberté d’expression sont autant de facteurs expliquant le succès de « La Toile ». Le réseau des réseaux est également simple à appréhender pour les développeurs, faisant de l’HTML, de CSS et de JavaScript des éléments de programmation simples à appréhender pour les codeurs en herbe. jQuery est une librairie JavaScript développée par John Resig en 2006 qui est aujourd’hui utilisée dans un grand nombre de sites. Ses atouts résident dans la simplification de la syntaxe de langage et de certaines opérations de calcul, de parcours et d’animation. Elle vous permettra de créer simplement des interactions de qualité pour rendre votre site ergonomique.",
-    "_ts": 1537849904
+    "description": "Comme son nom l'indique, le cours 1WEB vous fera découvrir le développement web via les langages HTML, CSS et JavaScript. Il vous présentera également le framework jQuery. Ce cours vous permettra d\u2019acquérir l'ensemble des notions essentielles pour développer des sites internet avec les technologies HTML, CSS et JavaScript. Il vous présentera également une introduction à la toute dernière mouture d\u2019HTML (version 5) avec son lot de nouveautés. Il n\u2019est plus nécessaire de présenter les avantages d\u2019internet et sa facilité d\u2019accès pour ses internautes. La facilité d\u2019accès à l\u2019information, les interconnexions omniprésentes et la liberté d\u2019expression sont autant de facteurs expliquant le succès de « La Toile ». Le réseau des réseaux est également simple à appréhender pour les développeurs, faisant de l\u2019HTML, de CSS et de JavaScript des éléments de programmation simples à appréhender pour les codeurs en herbe. jQuery est une librairie JavaScript développée par John Resig en 2006 qui est aujourd\u2019hui utilisée dans un grand nombre de sites. Ses atouts résident dans la simplification de la syntaxe de langage et de certaines opérations de calcul, de parcours et d\u2019animation. Elle vous permettra de créer simplement des interactions de qualité pour rendre votre site ergonomique."
 }
 
 ```
@@ -386,16 +480,14 @@ Similarly we can update the `1LIN` document to it's correct description. It curr
 
 We simply have to change the following:
 
-```js
-let descriptionContent = "<Description for 1LIN module>"
+```go
+update := bson.D{
+    {"$set", bson.D{
+        {"description", "<1LIN Description ... >"},
+    }},
+}
 
-collection.updateOne({ id : "1LIN" }
-    , { $set: { description : descriptionContent } }, function(err, result) {
-    assert.equal(err, null);
-    assert.equal(1, result.result.n);
-    console.log("Updated the document with id 1LIN");
-    callback(result);
-  }); 
+updateResult, err := collection.UpdateOne(ctx, bson.D{{"id", "1LIN"}}, update)
 
 ```
 
@@ -403,83 +495,130 @@ collection.updateOne({ id : "1LIN" }
 
 Let's assume we were trying to add a document for `2WEB` but inserted the document in the `ASC1 Modules` collection by mistake:
 
-```js
-MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
-    assert.equal(null, err);
-    console.log('connection successful')
+```go
+package main
 
-    // get the database
-    const db=client.db(dbname);
+import (
+	"log"
+	"context"
+	"time"
+	"github.com/mongodb/mongo-go-driver/mongo"
 
-    // get the required collection, ASC1 Modules here 
+)
 
-    const collection = db.collection('ASC1 Modules');
+func main() {
+	// Create context
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
-    console.log('Getting collection successful');
+	// Create client
+	client, err := mongo.Connect(ctx, "mongodb://supinfo:supinfo123@ds213645.mlab.com:13645/supinfo-kws-demo")
 
-    // insert document into collection
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    const doc = {
-        {
-            id:"2WEB",
-            title:"Web programming with PHP",
-            ects: 3,
-            description: "<2WEB description>"
-        },
-    }
-    collection.insertOne(doc, function(err,res){
-        assert.equal(null,err);
-        assert.equal(1, res.ops.length);
-    });
+	// Check the connection
+	err = client.Ping(ctx, nil)
 
-    console.log('Document created');
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("connection successful")
 
-    // close the connection
+	// create a Module type representing a particular course module
+	type Module struct{
+		Id string
+		Title string
+		ECTS int
+		Description string
+	}
 
-    client.close();
-
-
+	// Get collection
+    collection := client.Database("supinfo-kws-demo").Collection("ASc1 Modules")
     
-    }
-);
+	var web2 interface {}
+	web2 = Module{"2WEB","Web programming with PHP", 3,"<2WEB description ...>"}
+	insertResult, err := collection.InsertOne(ctx, web2)
+	if err != nil {
+		log.Fatal(err)
+	}
 
+	log.Println("Inserted a single document: ", insertResult.InsertedID)
+
+	// close connection
+	client.Disconnect(ctx)
+
+}
 ```
 
-![2WEB document incorrectly inserted in ASC1 Module collection](./wrongInsert.PNG)
+![2WEB document incorrectly inserted in ASC1 Module collection](./wrong_insert.PNG)
 
 We can delete the particular document using:
 
-```js
-MongoClient.connect(url,{ useNewUrlParser: true }, function(err, client) {  
-    assert.equal(null, err);
-    console.log('connection successful')
+```go
+package main
 
-    // get the database
-    const db=client.db(dbname);
+import (
+	"log"
+	"context"
+	"time"
+	"github.com/mongodb/mongo-go-driver/bson"
+	"github.com/mongodb/mongo-go-driver/mongo"
 
-    // get the required collection
+)
 
-    const collection = db.collection('ASC1 Modules');
+func main() {
+	// Create context
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
-    console.log('Getting collection successful');
+	// Create client
+	client, err := mongo.Connect(ctx, "mongodb://supinfo:supinfo123@ds213645.mlab.com:13645/supinfo-kws-demo")
 
-    
-     // Delete document where a is 3
-    collection.deleteOne({ id : "2WEB" }, function(err, result) {
-        assert.equal(err, null);
-        assert.equal(1, result.result.n);
-        console.log("Removed the document with the id 2WEB");
-    });    
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    // close the connection
+	// Check the connection
+	err = client.Ping(ctx, nil)
 
-    client.close();
-  
-    }
-);
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("connection successful")
+
+	// create a Module type representing a particular course module
+	type Module struct{
+		Id string
+		Title string
+		ECTS int
+		Description string
+	}
+
+	// Get collection
+	collection := client.Database("supinfo-kws-demo").Collection("ASc1 Modules")
+
+
+	deleteResult, err := collection.DeleteOne(ctx, bson.D{{"id", "2WEB"}})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Println("No. of deleted document(s) : ", deleteResult.DeletedCount)
+
+	// close connection
+	client.Disconnect(ctx)
+
+}
 ```
 
 This deletes the document.
+
+The expected output:
+
+```
+2019/02/13 14:26:34 connection successful
+2019/02/13 14:26:35 No. of deleted document(s) :  1
+```
 
 ## References
  - [^go] https://en.wikipedia.org/wiki/Go_(programming_language)
@@ -487,3 +626,5 @@ This deletes the document.
  - https://docs.mongodb.com/ecosystem/drivers/
  - https://godoc.org/github.com/mongodb/mongo-go-driver/mongo 
  - https://blog.golang.org/context
+ - https://medium.com/@wembleyleach/how-to-use-the-official-mongodb-go-driver-9f8aff716fdb
+ - https://www.mongodb.com/blog/post/mongodb-go-driver-tutorial
