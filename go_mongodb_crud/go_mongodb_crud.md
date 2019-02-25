@@ -70,6 +70,7 @@ import (
 )
 
 func main() {
+
 	// Create context, Note here timeout is 2 seconds
 	ctx, _ := context.WithTimeout(context.Background(), 2*time.Second)
 
@@ -123,7 +124,9 @@ import (
 )
 
 func main() {
+
 	// Create context, Note here timeout is 10 seconds
+
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
 	// Create client
@@ -180,6 +183,7 @@ We might have to click refresh to see the document. The document has the followi
 }
 ```
 !["Insert one"](insert_one.png)
+
 
 MongoDB also generates an id when inserting an item;
 
@@ -256,11 +260,13 @@ The expected output in the console is as follows:
 
 This creates a collection called `ASc1 Modules` and inserts three documents at once. Note: The description field for `1WEB` is deliberately left out and similarly the content of the description for `1LIN` is intentionally wrong so we can illustrate how to read these documents and update them.
 
+
 Next, we can explore how to read from the database.
 
 ### Read
 
 We can find all documents in a collection as follows:
+
 
 ```go
 package main
@@ -330,10 +336,12 @@ func main() {
 
 
 }
+
 ```
 This prints out all the documents, 3 in our case.
 
 We can also filter the query. For instance, let's find documents that do not have the `description` field set:
+
 
 ```go
 package main
@@ -394,13 +402,16 @@ func main() {
 This returns the following output:
 
 ```
+
 2019/02/13 13:20:44 connection successful
 2019/02/13 13:20:46 Found document without description: {Id:1WEB Title:HTML & JavaScript - User Interface ECTS:3 Description:}
+
 ```
 
 ### Update
 
 To update the above document to add a description field we can do the following:
+
 
 ```go
 package main
@@ -460,6 +471,7 @@ func main() {
 	client.Disconnect(ctx)
 
 }
+
 ```
 
 The `1WEB` document now has a description field. 
@@ -467,12 +479,14 @@ The `1WEB` document now has a description field.
 ```js
 {
     "_id": {
+
         "$oid": "5c63bb1aaf0afdc40ab4288a"
     },
     "id": "1WEB",
     "title": "HTML & JavaScript - User Interface",
     "ects": 3,
     "description": "Comme son nom l'indique, le cours 1WEB vous fera découvrir le développement web via les langages HTML, CSS et JavaScript. Il vous présentera également le framework jQuery. Ce cours vous permettra d\u2019acquérir l'ensemble des notions essentielles pour développer des sites internet avec les technologies HTML, CSS et JavaScript. Il vous présentera également une introduction à la toute dernière mouture d\u2019HTML (version 5) avec son lot de nouveautés. Il n\u2019est plus nécessaire de présenter les avantages d\u2019internet et sa facilité d\u2019accès pour ses internautes. La facilité d\u2019accès à l\u2019information, les interconnexions omniprésentes et la liberté d\u2019expression sont autant de facteurs expliquant le succès de « La Toile ». Le réseau des réseaux est également simple à appréhender pour les développeurs, faisant de l\u2019HTML, de CSS et de JavaScript des éléments de programmation simples à appréhender pour les codeurs en herbe. jQuery est une librairie JavaScript développée par John Resig en 2006 qui est aujourd\u2019hui utilisée dans un grand nombre de sites. Ses atouts résident dans la simplification de la syntaxe de langage et de certaines opérations de calcul, de parcours et d\u2019animation. Elle vous permettra de créer simplement des interactions de qualité pour rendre votre site ergonomique."
+
 }
 
 ```
@@ -489,11 +503,13 @@ update := bson.D{
 
 updateResult, err := collection.UpdateOne(ctx, bson.D{{"id", "1LIN"}}, update)
 
+
 ```
 
 ### Delete
 
 Let's assume we were trying to add a document for `2WEB` but inserted the document in the `ASC1 Modules` collection by mistake:
+
 
 ```go
 package main
@@ -609,9 +625,11 @@ func main() {
 	client.Disconnect(ctx)
 
 }
+
 ```
 
 This deletes the document.
+
 
 The expected output:
 
@@ -620,11 +638,14 @@ The expected output:
 2019/02/13 14:26:35 No. of deleted document(s) :  1
 ```
 
+
 ## References
  - [^go] https://en.wikipedia.org/wiki/Go_(programming_language)
  - http://mongodb.github.io/node-mongodb-native/3.1/quick-start/quick-start/
  - https://docs.mongodb.com/ecosystem/drivers/
  - https://godoc.org/github.com/mongodb/mongo-go-driver/mongo 
+
  - https://blog.golang.org/context
  - https://medium.com/@wembleyleach/how-to-use-the-official-mongodb-go-driver-9f8aff716fdb
  - https://www.mongodb.com/blog/post/mongodb-go-driver-tutorial
+

@@ -6,7 +6,6 @@ import (
 	"time"
 	"github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/mongo"
-
 )
 
 func main() {
@@ -28,6 +27,7 @@ func main() {
 	}
 	log.Println("connection successful")
 
+
 	// create a Module type representing a particular course module
 	type Module struct{
 		Id string
@@ -41,12 +41,22 @@ func main() {
 
 
 	deleteResult, err := collection.DeleteOne(ctx, bson.D{{"id", "2WEB"}})
+
+	collection := client.Database("supinfo-kws-demo").Collection("Assignments")
+	insertResult, err := collection.InsertOne(ctx, bson.M{"ID":"MP1", "Description":"Puzzler- Use HTML5 to create a mini puzzle game", "Module":"1WEB" , "Deadline":"25-09-2018" })
+
 	if err != nil {
 		log.Fatal(err)
 	}
 
+
 	log.Println("No. of deleted document(s) : ", deleteResult.DeletedCount)
 
+	// close connection
+	client.Disconnect(ctx)
+
+
+	log.Println("Inserted a single document: ", insertResult.InsertedID)
 	// close connection
 	client.Disconnect(ctx)
 
